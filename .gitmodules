@@ -1,0 +1,3 @@
+[submodule "plugins/plotters/chia-plotter"]
+	path = plugins/plotters/chia-plotter
+	url = https://github.com/madMAx43v3r/chia-plotter

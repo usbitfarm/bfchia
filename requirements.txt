@@ -1,0 +1,9 @@
+certifi==2020.12.5
+chardet==4.0.0
+configparser==5.0.1
+jsonrpc-pyclient==1.1.3
+requests==2.25.1
+urllib3==1.26.3
+uuid==1.30
+getmac==0.8.2
+tzlocal==2.1

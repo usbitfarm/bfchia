@@ -1,0 +1,4 @@
+venv
+config.ini
+__pycache__
+logs/*.log
