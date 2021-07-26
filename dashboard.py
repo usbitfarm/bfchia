@@ -227,7 +227,7 @@ class Dashboard:
                 dest = self.get_destination_dir()
                 if dest:
                     new_dir = os.path.join(
-                        dest, os.path.basename(self.plot_in_transfer))
+                        dest, f'{os.path.basename(self.plot_in_transfer)}.plot')
                     self.app.logger.info(f'Move {plot} > {dest}')
                     ts = time.time()
                     shutil.move(self.pending_plots[plot]['path'],  new_dir)
