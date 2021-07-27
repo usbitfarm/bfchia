@@ -37,7 +37,10 @@ git clone https://github.com/usbitfarm/bfchia.git
 cd bfchia
 pip3 install -r requirements.txt
 
-# 一键安装并编译 madMAx chia-plotter(https://github.com/madMAx43v3r/chia-plotter) 脚本
+# 安装编译环境
+sudo apt install -y libsdium-dev cmake
+
+# 编译 madMAx chia-plotter(https://github.com/madMAx43v3r/chia-plotter) 脚本
 sh make_linux.sh
 ```
 
