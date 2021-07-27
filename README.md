@@ -38,7 +38,7 @@ cd bfchia
 pip3 install -r requirements.txt
 
 # 安装编译环境
-sudo apt install -y libsdium-dev cmake
+sudo apt install -y libsodium-dev cmake
 
 # 编译 madMAx chia-plotter(https://github.com/madMAx43v3r/chia-plotter) 脚本
 sh make_linux.sh
