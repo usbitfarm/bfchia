@@ -41,7 +41,7 @@ class Backend:
                 self.app.set_state('system', 'last_growth_ts',
                                    res['last_growth_ts'])
         except Exception as e:
-            self.app.logger.warning("Unable to register rig")
+            self.app.logger.warning(f"Unable to register rig {str(e)}")
 
         return True
 
@@ -94,7 +94,7 @@ class Backend:
                 return resp.json()
             raise APIError(resp.status_code)
         except Exception as e:
-            raise APIError(500)
+            self.app.logger.warning(f'API POST error: {str(e)}')
 
     def get_request(self, endpoint):
         try:
@@ -103,19 +103,16 @@ class Backend:
             if resp.status_code == 200:
                 return resp.json()
             raise APIError(resp.status_code)
-        except:
-            raise APIError(500)
+        except Exception as e:
+            self.app.logger.warning(f'API GET error: {str(e)}')
 
     def report_growth(self, report):
-        try:
-            networks = self.get_networks_info()
-            report.update({'w': self.get_wan_ip(
-            ), 'networks': networks, 'ssh_addr': self.get_tunnel_path()})
-            result = self.post_request(
-                'xch/rigs/' + self.mac + '/growth', report)
-            return result
-        except Exception as e:
-            self.app.logger.warning(f'Report growth error: {str(e)}')
+        networks = self.get_networks_info()
+        report.update({'w': self.get_wan_ip(
+        ), 'networks': networks, 'ssh_addr': self.get_tunnel_path()})
+        result = self.post_request(
+            'xch/rigs/' + self.mac + '/growth', report)
+        return result
 
     def get_tunnel_path(self):
         # Tunneling only available in linux system

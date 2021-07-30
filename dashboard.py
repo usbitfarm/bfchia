@@ -47,9 +47,10 @@ class Dashboard:
     def heartbeat(self):
         report = self.scan_farms()
         result = self.app.backend.report_growth(report)
-        last_growth_ts = report['last_growth_ts'] if (result and 'last_growth_ts' not in result) else result['last_growth_ts']
-        self.app.set_state('system', 'last_growth_ts', last_growth_ts)
-        self.app.logger.info(f"Last growth: {last_growth_ts}")
+        if result:
+            last_growth_ts = report['last_growth_ts'] if (result and 'last_growth_ts' not in result) else result['last_growth_ts']
+            self.app.set_state('system', 'last_growth_ts', last_growth_ts)
+            self.app.logger.info(f"Last growth: {last_growth_ts}")
         threading.Timer(self.heartbeat_interval, self.heartbeat).start()
 
     def scan_farms(self):
