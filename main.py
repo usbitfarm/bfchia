@@ -24,7 +24,7 @@ class App:
                               self.sanity_check_harvester_config]
         self.logger = None
         self.logformatter = None
-        self.harvester_manager = HarvesterManager()
+        self.harvester_manager = HarvesterManager(self)
 
     def run(self):
         if self.logger is None:
@@ -125,10 +125,11 @@ class App:
     
     def sanity_check_harvester_config(self):
         self.logger.info("Checking harvester config...")
+        active = self.get_state("harvester", "active")
+        if active == "0":
+            return True
         
         result = True
-        
-        active = self.get_state("harvester", "active")
         init = self.get_state("harvester", "init")
         certs_dir = self.get_state("harvester", "certs_dir")
         chia_path = self.get_state("harvester", "chia_path")

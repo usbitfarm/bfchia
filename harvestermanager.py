@@ -8,7 +8,7 @@ class HarvesterManager:
         active = self.app.get_state('harvester', 'active')
         chia_path = self.app.get_state('harvester', 'chia_path')
         
-        if not active:
+        if active == "0":
             return
         init = self.app.get_state('harvester', 'init')
         if init:
