@@ -135,7 +135,7 @@ class App:
         chia_path = self.get_state("harvester", "chia_path")
         farmer_host = self.get_state("harvester", "farmer_host")
         farmer_port = self.get_state("harvester", "farmer_port")
-        if init == "1" and certs_dir == "" and farmer_host == "" and farmer_port == "":
+        if init == True and (certs_dir == "" or farmer_host == "" or farmer_port == ""):
             result = False
             if not result:
                 self.logger.warning("Invalid certs directory, or farmer settings")
