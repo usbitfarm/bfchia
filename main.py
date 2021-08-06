@@ -1,6 +1,7 @@
 from state import StateManager
 from dashboard import Dashboard
 from backend import Backend
+from harvestermanager import HarvesterManager
 import threading
 import requests
 import platform
@@ -8,17 +9,22 @@ from os import path
 import logging
 from logging.handlers import TimedRotatingFileHandler
 import sys
+import os
 
 sys.stdout.reconfigure(encoding='utf-8')
 class App:
     def __init__(self):
         self.dashboard = None
-        self.stateManager = StateManager()
+        self.state_manager = StateManager()
         self.sanity_counter = 0
         self.sanity_checks = [self.sanity_check_network,
-                              self.sanity_check_token, self.sanity_check_farms, self.sanity_check_rig]
+                              self.sanity_check_token, 
+                              self.sanity_check_farms, 
+                              self.sanity_check_rig,
+                              self.sanity_check_harvester_config]
         self.logger = None
         self.logformatter = None
+        self.harvester_manager = HarvesterManager()
 
     def run(self):
         if self.logger is None:
@@ -39,6 +45,7 @@ class App:
                 self.sanity_counter = self.sanity_counter + 1
 
         self.welcome_message()
+        self.harvester_manager.run()
         self.dashboard.run()
 
     def setup_logger(self):
@@ -89,7 +96,7 @@ class App:
 
     def sanity_check_token(self):
         self.logger.info("Token...")
-        self.stateManager.load_configs()
+        self.state_manager.load_configs()
         token = self.get_state("bitfarm", "token")
         return token is not None
 
@@ -108,25 +115,55 @@ class App:
     def sanity_check_rig(self):
         self.logger.info("Register rig...")
 
-        self.stateManager.load_configs()
+        self.state_manager.load_configs()
         token = self.get_state("bitfarm", "token")
 
         self.backend = Backend(self, token)
         self.dashboard = Dashboard(self, token)
 
         return self.backend.run()
+    
+    def sanity_check_harvester_config(self):
+        self.logger.info("Checking harvester config...")
+        
+        result = True
+        
+        active = self.get_state("harvester", "active")
+        init = self.get_state("harvester", "init")
+        certs_dir = self.get_state("harvester", "certs_dir")
+        chia_path = self.get_state("harvester", "chia_path")
+        farmer_host = self.get_state("harvester", "farmer_host")
+        farmer_port = self.get_state("harvester", "farmer_port")
+        if init == "1" and certs_dir == "" and farmer_host == "" and farmer_port == "":
+            result = False
+            if not result:
+                self.logger.warning("Invalid certs directory, or farmer settings")
+        else:
+            result = path.isfile(path.join(certs_dir, "chia_ca.crt")) and \
+                     path.isfile(path.join(certs_dir, "chia_ca.key")) and \
+                     path.isfile(path.join(certs_dir, "private_ca.crt")) and \
+                     path.isfile(path.join(certs_dir, "private_ca.crt"))
+            if not result:
+                self.logger.warning("Invalid certs directory")
+            else:
+                if active == "1":
+                    result =  path.isfile(chia_path)
+                    if not result:
+                        self.logger.warning("Invalid chia path")
+                                 
+        return result
 
     def reload_configs(self):
-        self.stateManager.load_configs()
+        self.state_manager.load_configs()
 
     def get_state(self, section, option):
-        return self.stateManager.get_val(section, option)
+        return self.state_manager.get_val(section, option)
 
     def set_state(self, section, option, val):
-        return self.stateManager.set_val(section, option, val)
+        return self.state_manager.set_val(section, option, val)
 
     def commit_state(self, config_type):
-        self.stateManager.save(config_type)
+        self.state_manager.save(config_type)
 
 
 if __name__ == '__main__':

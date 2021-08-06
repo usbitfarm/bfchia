@@ -39,6 +39,14 @@ class StateManager:
                 "threads": "2",
                 "buckets": "256",
                 "K": "1"
+            },
+            'harvester':{
+                "active": "0",
+                "init": "0",
+                "chia_path": "",
+                "certs_dir": "",
+                "farmer_host": "",
+                "farmer_port": ""
             }
         }
         self.bitfarm_config = ConfigParser()
