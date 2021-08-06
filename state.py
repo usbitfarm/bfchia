@@ -9,7 +9,7 @@ import tzlocal
 class StateManager:
     def __init__(self):
         self.system_params = {
-            'version': '0.1',
+            'version': '0.2',
             'retry_timer': 15,
             'heartbeat_timer': 15,
             'expandtabs': 30,
