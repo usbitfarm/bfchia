@@ -29,6 +29,9 @@ class HarvesterManager:
         output = subprocess.check_output(cmd, shell=True)
         self.app.logger.info(output)
         
+        self.app.set_state("harvester", "init", "0")
+        self.app.commit_state()
+        
     def start_harvester(self):
         cmd = '{} start harvester -r'
         output = subprocess.check_output(cmd, shell=True)
