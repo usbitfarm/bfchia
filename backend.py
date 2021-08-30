@@ -36,7 +36,7 @@ class Backend:
             data = {'mac': self.mac, 'os': osversion, 'v': version, 'tz': tz}
 
             harvester_active = self.app.get_state("harvester", "active")
-            if harvester_active:
+            if harvester_active == "1":
                 farmer_host = self.app.get_state('harvester', 'farmer_host')
                 farmer_port = self.app.get_state('harvester', 'farmer_port')
                 data['harvester'] = {'farmer_host': farmer_host, 'farmer_port': farmer_port}
