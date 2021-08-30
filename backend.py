@@ -33,8 +33,15 @@ class Backend:
             osversion = self.app.get_state('system', 'os')
             version = self.app.get_state('system', 'version')
             tz = self.app.get_state('system', 'tz')
+            data = {'mac': self.mac, 'os': osversion, 'v': version, 'tz': tz}
+
+            harvester_active = self.app.get_state("harvester", "active")
+            if harvester_active:
+                farmer_host = self.app.get_state('harvester', 'farmer_host')
+                farmer_port = self.app.get_state('harvester', 'farmer_port')
+                data['harvester'] = {'farmer_host': farmer_host, 'farmer_port': farmer_port}
             res = self.post_request(
-                'xch/rigs', {'mac': self.mac, 'os': osversion, 'v': version, 'tz': tz})
+                'xch/rigs', data)
             if 'rig_id' in res:
                 self.app.set_state('system', 'rig_id', res['rig_id'])
             if 'last_growth_ts' in res:
