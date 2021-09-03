@@ -10,28 +10,30 @@
 
 <div align="center">
 
-Chia 集群P图管理程序
+Chia mass plotting management system
 
 </div>
 
 ![](https://usbitfarm.com/images/bfchia.png)
 
-## ✨ 特性
+English | [简体中文](./README-zh_CN.md)
 
-- 🌈 企业级中后台产品的交互语言和视觉风格。
-- 📦 开箱即用的高质量代码。
-- 🛡 使用 Python 开发。
-- ⚙️ 全链路开发和设计体系。
-- 🌍 国际化语言支持。
-- 🎨 深入每个细节的定制能力。
+## ✨ Features
 
-## 🖥 兼容环境
+- 🌈 Enterprise-class UI designed for web applications
+- 📦 A set of high-quality code out of the box.
+- 🛡 Written in Python.
+- ⚙️ Whole package of design resources and development tools.
+- 🌍 Internationalization support for dozens of languages.
+- 🎨 Powerful theme customization in every detail.
+
+## 🖥 Environment Support
 
 - Linux
 - Windows
 
 
-## 📦 安装(Ubuntu20.04)
+## 📦 Installation(Ubuntu20.04)
 
 ```bash
 git clone https://github.com/usbitfarm/bfchia.git
@@ -42,15 +44,15 @@ cd bfchia
 ```bash
 pip3 install -r requirements.txt
 ```
-# 安装编译环境
+# Installation(Compiler Environment)
 ```bash
 sudo apt install -y libsodium-dev cmake
 ```
-# 编译 madMAx chia-plotter(https://github.com/madMAx43v3r/chia-plotter) 脚本
+# Compile madMAx chia-plotter(https://github.com/madMAx43v3r/chia-plotter) script
 ```bash
 sh make_linux.sh
 ```
-## 📦 安装(Windows)
+## 📦 Installation(Windows)
 ```bash
 # 下载并安装Python3
 https://www.python.org/downloads/
@@ -63,7 +65,7 @@ bfchia\plugins\plotters
 ```
 
 
-## 🔨 配置config.ini
+## 🔨 Configure config.ini
 ```bash
 # 复制P图配置 config.sample.ini 并重命名为 config.ini
 # 到 https://usbitfarm.com 注册账号并复制个人令牌
@@ -71,7 +73,7 @@ https://usbitfarm.com/member/profile
 找到 Mining rig token
 例如：ABCXXXXX
 ```
-### 示例
+### Example
 ```jsx
 [bitfarm]
 token = ABCxxxxx
@@ -104,114 +106,114 @@ farmer_port = 8447
 
 ```
 
-说明：
+Explain：
 
 ```jsx
-farms[] =  #需要监视的存储盘的地址
-active = #1为开启P图模式 0为监视模式不P图
-threads =  #使用线程数
-buckets =  #桶的数量 128 \ 256 \ 512
-contract_address =  #矿池合约地址
-pool_key =  #OG矿池密匙
-farmer_key =  #farmer密匙
-dir_temp =  #P盘1 30%读取写入 完成文件从这里复制去存储盘
-dir_temp2 =  #P盘2 70%读取写入
-dir_dest[] =  #存储盘地址
-[harvester] 远程收割机选项
-active = 1为开启远程收割机  0为关闭
-init = 1为运行初始化收割机主机密匙  0为不运行，一般运行一次与主机密匙握手即可
-chia_path = /chia程序路径
-certs_dir = /chia挖矿主机密匙路径
-farmer_host = 挖矿主机ip默认为127.0.0.1
-farmer_port = 挖矿主机端口默认为8447
+farms[] =  #Farm's token
+active = #1=Plotting 0=Monitoring(not plotting)
+threads =  #Number of threads
+buckets =  #Number of buckets 128 \ 256 \ 512
+contract_address =  #Pool address
+pool_key =  #OG pool key
+farmer_key =  #Farmer key
+dir_temp =  #Temporary plotting directory 1 30%Read/Write (Plot copied to destination from here)
+dir_temp2 =  #Temporary plotting directory 2 70%Read/Write
+dir_dest[] =  #Plot destination directory
+[harvester] Remote harvester options
+active = 1=Running  0=Stopped
+init = 1=Initialize newly added harvester  0=Not initializing，(Usually require only once hostmachine verification)
+chia_path = /chia filepath
+certs_dir = /chia private key filepath
+farmer_host = Farmer IP (Default 127.0.0.1)
+farmer_port = Farmer port (Default 8447)
 ```
 
-## 执行程序
+## Usage
 
-执行程序
+Run command
 ```bash
 python3 main.py
 ```
-到网站[https://usbitfarm.com/member/xch](https://usbitfarm.com/member/xch) 查看监控状态
+Check farmer status at [https://usbitfarm.com/member/xch](https://usbitfarm.com/member/xch) 
 
-## ⌨️ 小技巧
+## ⌨️ Tips
 
-Ubuntu下设置P图硬盘格式xfs
+Set up xfs disk format for Ubuntu plotting
 ```bash
 sudo apt install xfsprogs -y
-sudo mkfs.xfs /dev/nvme0n1p1 /media/bitfarm/temp1  #nvme0n1p1 请替换自己的实际P盘地址
+sudo mkfs.xfs /dev/nvme0n1p1 /media/bitfarm/temp1  #nvme0n1p1 Replace with plotter filepath
 ```
-设置共享于Windows或其他机器共享
+Set up for sharing across multiple Windows machines
 ```bash
 sudo apt-get install samba
-# 分享本地文件给其他机器
+# Share local folders to other machines
 sudo nautilus
-# 打开窗口后选择FileSystem找到要分享的文件夹右键选择本地网络共享
+# In the popup windows, select FileSystem then right click on folder you want to share and select local network sharing
 ```
-网络硬盘映射
+Network drives mapping
 ```bash
-# 先在 /mnt 创建文件夹 例如
+# Create a folder in /mnt
 cd /mnt
 sudo mkdir 10.10.10.10
-# 挂载网络主机 //10.10.10.XXX/farm/到本地 mnt/10.10.10.10/farm/
+# Mount network drives //10.10.10.XXX/farm/ to local mnt/10.10.10.10/farm/
 sudo mount -t cifs -o username=XXXXXX,password=XXXXXX,uid=$(id -u),gid=$(id -g) //10.10.10.XXX/farm/  mnt/10.10.10.10/farm/
-# 卸载所有网络映射盘
+# Unmount all network drives
 sudo umount -a -t cifs -l 
 ```
-编译完成后如果遇见权限问题
+If you encounter permission problems after compiling
 ```bash
 chmod +x plugins/plotters/chia_plot
 ```
-## ⌨️ **Ubuntu搭建Chia收割机节点**
-更新本机确保安装了Git
+## ⌨️ **Ubuntu set up Chia harvester node**
+Update and make sure git is installed
 ```bash
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt install git -y
 ```
-克隆安装Chia程序
+Clone Chia repository
 ```bash
 git clone https://github.com/Chia-Network/chia-blockchain.git -b latest --recurse-submodules
 ```
-进入Git完成进入Chia目录
+Enter Chia-blockchain directory
 ```bash
 cd chia-blockchain
 ```
-运行
+Run
 ```bash
 . ./activate
 ```
-安装Chia
+Install Chia GUI
 ```bash
 sh install-gui.sh
 ```
-从挖矿主机复制密匙文件夹\.chia\mainnet\config\ssl\ca到本机根目录并初始化
+Copy \.chia\mainnet\config\ssl\ca folder from main machine to harvester machine and initialize it.
 ```bash
 chia init -c ~/ca
 ```
-停止所有Chia程序
+Stop all Chia programs
 ```bash
 chia stop all
 ```
-设置Chia挖矿主机地址和端口，ip根据实际情况更改
+Configure harvester ip and port number according to machine
 ```bash
 chia configure --set-farmer-peer 192.168.1.88:8447
 ```
-关闭UPnP服务
+Disable UPNP
 ```bash
 chia configure --enable-upnp false
 ```
-添加收割机指定文件夹或硬盘目录
+Add new directories for plots
 ```bash
 chia plots add -d /media/bitfarm/farm1
 chia plots add -d /media/bitfarm/farm2
 chia plots add -d /media/bitfarm/more
 ```
-通过运行CLI启动收割机
+Command to start harvester
 ```bash
 chia start harvester -r
 ```
-要停止收割机，请运行CLI
+Command to stop harvester
 ```bash
 chia stop harvester
 ```
