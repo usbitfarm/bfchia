@@ -54,24 +54,24 @@ sh make_linux.sh
 ```
 ## 📦 Installation(Windows)
 ```bash
-# 下载并安装Python3
+# Download and install python3
 https://www.python.org/downloads/
-# 下载并安装Git
+# Download and install git
 https://git-scm.com/downloads
-# 下载Windows版本[madMAx]chia-plotter
+# Download (Windows)[madMAx]chia-plotter
 https://github.com/stotiks/chia-plotter/releases
-# 复制chia_plot.exe文件到 
+# Copy chia_plot.exe to 
 bfchia\plugins\plotters
 ```
 
 
 ## 🔨 Configure config.ini
 ```bash
-# 复制P图配置 config.sample.ini 并重命名为 config.ini
-# 到 https://usbitfarm.com 注册账号并复制个人令牌
+# Copy plotting setting 'config.sample.ini' and rename to 'config.ini'
+# Create an account on https://usbitfarm.com and copy your personal token
 https://usbitfarm.com/member/profile
-找到 Mining rig token
-例如：ABCXXXXX
+Find 'Mining rig token'
+Example：ABCXXXXX
 ```
 ### Example
 ```jsx
